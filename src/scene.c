@@ -16,7 +16,7 @@ void load_scene_actors(const actor_t *actor, uint8_t actors_count) {
     actor_t *current_actor = active_actors;
 
     UINT8 hiwater = 0;
-    for (UINT8 i = actors_count; i != 0; i--) {  //counter direction does not matter, because pointer is moved. only number of iterations matter.
+    for (UINT8 i = actors_count; i != 0; i--) {  // counter direction does not matter, because pointer is moved. only number of iterations matter.
         current_actor->tile_index = hiwater;
         set_sprite_data(hiwater, actor->tile_count, actor->tile_data);
         current_actor->x = actor->x;
@@ -32,16 +32,16 @@ void load_scene_actors(const actor_t *actor, uint8_t actors_count) {
         current_actor++;
         actor++;
     }
-    active_actors_count = actors_count;  //copies from ROM to RAM
+    active_actors_count = actors_count;  // copies from ROM to RAM
 }
 
 void load_level(const level_t *level) {
     if (level == NULL) return;
-    load_scene_actors(level->actors, level->actor_count);  //Loads level1.c actors
+    load_scene_actors(level->actors, level->actor_count);  // Loads level1.c actors
     animate_level = level->animate_hook;
 }
 
-//calls move_metasprite();, increases hiwater, and clears unnecessary Sprites in OAM after the hiwater's value
+// calls move_metasprite();, increases hiwater, and clears unnecessary Sprites in OAM after the hiwater's value
 static uint8_t animation_timer = 6;
 void render_actors() {
     actor_t *current_actor = active_actors;
