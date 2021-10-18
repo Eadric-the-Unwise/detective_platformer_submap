@@ -21,22 +21,6 @@ UINT8 floorYposition;
 const unsigned char blankmap[2] = {0x00, 0x01};
 extern Variables bkg;
 
-// CHECKS WHETHER OR NOT THE OFFSET OF PLAYER POSITION COLLIDES WITH A COLLISION TILE
-// BOTTOM LEFT PIXEL
-// UBYTE checkcollisionBL(UINT8 newplayerx, UINT8 newplayery) {
-//     UINT16 indexBLx, indexBLy, indexCamX, tileindexBL;
-//     UBYTE result;
-
-//     indexBLx = (newplayerx - 17) / 8;
-//     indexBLy = (newplayery - 1) / 8;
-//     indexCamX = (bkg.camera_x) / 8;
-//     tileindexBL = 40 * (indexBLy) + (indexBLx + indexCamX);
-
-//     result = COLLISION_WIDE_MAP[tileindexBL] == blankmap[1];
-
-//     return result;
-// }
-
 /******************************/
 // Define your OBJ and BGP palettes, show SPRITES, turn on DISPLAY
 /******************************/
@@ -70,10 +54,10 @@ void main() {
                     bkg.redraw = TRUE;
                 }
             }
-            if (PLAYER.SpdX > -MAX_WALK_SPEED) {
-                PLAYER.SpdX -= WALK_VELOCITY;
+            if (bkg.SpdX > -MAX_WALK_SPEED) {
+                bkg.SpdX -= WALK_VELOCITY;
             } else
-                PLAYER.SpdX = -MAX_WALK_SPEED;
+                bkg.SpdX = -MAX_WALK_SPEED;
 
         } else if (joy & J_RIGHT) {
             if (bkg.camera_style == horizontal_cam) {
@@ -83,10 +67,10 @@ void main() {
                 }
             }
 
-            if (PLAYER.SpdX < MAX_WALK_SPEED) {
-                PLAYER.SpdX += WALK_VELOCITY;
+            if (bkg.SpdX < MAX_WALK_SPEED) {
+                bkg.SpdX += WALK_VELOCITY;
             } else
-                PLAYER.SpdX = MAX_WALK_SPEED;
+                bkg.SpdX = MAX_WALK_SPEED;
         }
 
         // else if ((CHANGED_BUTTONS & J_B) && (joy & J_B) && (Jump)) {
@@ -109,26 +93,21 @@ void main() {
         // ---------------------------------------------
         // WORLD PHYSICS:
         // GRAVITY
-        PLAYER.SpdY += GRAVITY;
-        if (PLAYER.SpdY > MAX_FALL_SPEED) {
-            PLAYER.SpdY = MAX_FALL_SPEED;
+        bkg.SpdY += GRAVITY;
+        if (bkg.SpdY > MAX_FALL_SPEED) {
+            bkg.SpdY = MAX_FALL_SPEED;
         }
-        if (PLAYER.SpdX != 0) {
-            if (PLAYER.SpdX < 0)
-                PLAYER.SpdX += FRICTION;
+        if (bkg.SpdX != 0) {
+            if (bkg.SpdX < 0)
+                bkg.SpdX += FRICTION;
             else
-                PLAYER.SpdX -= FRICTION;
+                bkg.SpdX -= FRICTION;
         }
 
         // update PLAYER absolute posiiton
-        PLAYER.y += PLAYER.SpdY;
-        PLAYER.x += PLAYER.SpdX;
+        // bkg.camera_x += bkg.SpdY;
+        // bkg.camera_y += bkg.SpdX;
 
-        // call level animation hook (if any), that makes other actors move (and interact in future)
-        if (animate_level) animate_level();
-
-        // render all actors on screen
-        render_actors();
         if (bkg.redraw) {
             wait_vbl_done();
             set_camera();
@@ -137,3 +116,19 @@ void main() {
             wait_vbl_done();
     }
 }
+
+// CHECKS WHETHER OR NOT THE OFFSET OF PLAYER POSITION COLLIDES WITH A COLLISION TILE
+// BOTTOM LEFT PIXEL
+// UBYTE checkcollisionBL(UINT8 newplayerx, UINT8 newplayery) {
+//     UINT16 indexBLx, indexBLy, indexCamX, tileindexBL;
+//     UBYTE result;
+
+//     indexBLx = (newplayerx - 17) / 8;
+//     indexBLy = (newplayery - 1) / 8;
+//     indexCamX = (bkg.camera_x) / 8;
+//     tileindexBL = 40 * (indexBLy) + (indexBLx + indexCamX);
+
+//     result = COLLISION_WIDE_MAP[tileindexBL] == blankmap[1];
+
+//     return result;
+// }

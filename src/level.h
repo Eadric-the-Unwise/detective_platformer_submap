@@ -1,25 +1,25 @@
 // #ifndef CHARACTER_H //if its not defined, then proceed to line 2 and define it.
 // #define CHARACTER_H
-//pragma once is a stronger method to ifndef <-> endif
-//it makes sure that the header file is only included once
+// pragma once is a stronger method to ifndef <-> endif
+// it makes sure that the header file is only included once
 #pragma once
-#include <stdio.h>
-#include <gb/font.h>
 #include <gb/console.h>
 #include <gb/drawing.h>
+#include <gb/font.h>
+#include <stdio.h>
 
-enum Cam
-{
+enum Cam {
     vertical_cam,
     horizontal_cam,
     platforming_cam,
     scroll_cam
 };
 
-typedef struct Variables
-{
+typedef struct Variables {
     UINT16 camera_max_y;
     UINT16 camera_max_x;
+    INT16 SpdX;
+    INT16 SpdY;
     UBYTE joy;
 
     UBYTE sliding;
@@ -32,7 +32,7 @@ typedef struct Variables
     UBYTE map_pos_x, map_pos_y, old_map_pos_x, old_map_pos_y;
     // redraw flag, indicates that camera position was changed
     UBYTE redraw;
-    //below PROVIDED BY TOXA IN DISCORD //
+    // below PROVIDED BY TOXA IN DISCORD //
     UINT8 level_map_width;
     UINT8 level_map_height;
     const UINT8 *level_map_data;
