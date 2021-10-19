@@ -49,28 +49,32 @@ void main() {
 
         if (joy & J_LEFT) {
             if (bkg.camera_style == horizontal_cam) {
-                if (bkg.camera_x) {
-                    bkg.camera_x--;
+                if (bkg.camera_x > TO_COORDS(1)) {
+                    // bkg.camera_x--;
                     bkg.redraw = TRUE;
-                }
+                    if (bkg.SpdX > -MAX_WALK_SPEED) {
+                    bkg.SpdX -= WALK_VELOCITY;
+            } else 
+                    bkg.SpdX = -MAX_WALK_SPEED;}
+             else { bkg.SpdX = 0;
+                bkg.camera_x = 5;}
             }
-            if (bkg.SpdX > -MAX_WALK_SPEED) {
-                bkg.SpdX -= WALK_VELOCITY;
-            } else
-                bkg.SpdX = -MAX_WALK_SPEED;
+            
 
         } else if (joy & J_RIGHT) {
             if (bkg.camera_style == horizontal_cam) {
-                if (bkg.camera_x < bkg.camera_max_x) {
-                    bkg.camera_x++;
+                if (bkg.camera_x < TO_COORDS(bkg.camera_max_x)) {
+                    // bkg.camera_x++;
                     bkg.redraw = TRUE;
-                }
-            }
-
-            if (bkg.SpdX < MAX_WALK_SPEED) {
+                    if (bkg.SpdX < MAX_WALK_SPEED) {
                 bkg.SpdX += WALK_VELOCITY;
             } else
                 bkg.SpdX = MAX_WALK_SPEED;
+                }
+                else bkg.SpdX = 0;
+            }
+
+            
         }
 
         // else if ((CHANGED_BUTTONS & J_B) && (joy & J_B) && (Jump)) {
@@ -104,8 +108,8 @@ void main() {
                 bkg.SpdX -= FRICTION;
         }
 
-        // update PLAYER absolute posiiton
-        // bkg.camera_x += bkg.SpdY;
+        // update CAMERA absolute posiiton
+        bkg.camera_x += bkg.SpdX;
         // bkg.camera_y += bkg.SpdX;
 
         if (bkg.redraw) {
