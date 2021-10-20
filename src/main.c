@@ -6,7 +6,7 @@
 #ifdef DEBUG
 #include <stdio.h>
 #endif
-// SUBMAP-2 BRANCH PLATFORMER
+// TEST LAPTOP CLONE PUSH PULL
 //  Include your scene and map header files
 #include "../res/tiles/brick_wide_map.h"
 #include "../res/tiles/brick_wide_tiles.h"
